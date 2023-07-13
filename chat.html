@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatting Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .container {
+      background-color: #2d3748;
+      color: #fff;
+    }
+    .chat-box {
+      background-color: #4a5568;
+      overflow-y: auto;
+    }
+    .chat-message {
+      color: #cbd5e0;
+      font-size: 18px; 
+    }
+    .message-input {
+      background-color: #2d3748;
+      border-color: #4a5568;
+      color: #fff;
+      
+    }
+    .message-right {
+      text-align: right;
+    }
+    .message-left {
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mx-auto p-4 min-h-screen bg-blue-gray-900">
+    <header class="flex flex-col items-center justify-between mb-4">
+      <h1 class="text-2xl mt-4 mb-4 text-center font-extrabold">Chatting Page</h1>
+      <div class="flex">
+        <button class="bg-blue-500 text-white rounded-full px-4 py-2 mr-2 hover:bg-blue-800 mt-2">Audio</button>
+        <button class="bg-green-500 text-white rounded-full px-4 py-2 hover:bg-green-800 mt-2">Video</button>
+      </div>
+    </header>
+    <div class="chat-box bg-white p-4 h-80 overflow-y-scroll" id="chatBox">
+      <!-- Chat messages go here -->
+    </div>
+    <form class="mt-4 text-white" id="messageForm">
+      <input type="text" class="message-input w-full rounded border border-gray-300 px-4 py-2 text-gray-300" placeholder="Type your message here..." id="messageInput">
+      <button class="send-button text-white rounded px-4 py-2 ml-2 mt-4 bg-blue-500 hover:bg-blue-800" type="submit">Send</button>
+    </form>
+  </div>
+
+  <script>
+    // Get references to elements
+    const chatBox = document.getElementById('chatBox');
+    const messageForm = document.getElementById('messageForm');
+    const messageInput = document.getElementById('messageInput');
+
+    // Add event listener to the message form for submitting messages
+    messageForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const message = messageInput.value;
+      if (message.trim() !== '') {
+        const sender = 'You'; // Replace this with the appropriate sender information
+        addMessage(sender, message);
+        messageInput.value = '';
+      }
+    });
+
+    let isRightAligned = true; // Track the alignment of messages
+
+    // Function to add a new message to the chat box
+    function addMessage(sender, text) {
+      const messageDiv = document.createElement('div');
+      messageDiv.classList.add('mb-4');
+      const senderParagraph = document.createElement('p');
+      senderParagraph.classList.add('font-semibold');
+      senderParagraph.textContent = sender + ':';
+      const textParagraph = document.createElement('p');
+      textParagraph.classList.add('chat-message');
+      textParagraph.textContent = text;
+      messageDiv.appendChild(senderParagraph);
+      messageDiv.appendChild(textParagraph);
+      
+      // Set the appropriate class based on the alignment
+      if (isRightAligned) {
+        messageDiv.classList.add('message-right');
+      } else {
+        messageDiv.classList.add('message-left');
+      }
+      
+      chatBox.appendChild(messageDiv);
+      // Scroll to the latest message
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      // Toggle the alignment for the next message
+      isRightAligned = !isRightAligned;
+    }
+  </script>
+</body>
+</html>
