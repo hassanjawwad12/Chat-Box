@@ -1,2 +1,2 @@
-# Chat-Box-
+# Chat-Box
 A simple chat page 
